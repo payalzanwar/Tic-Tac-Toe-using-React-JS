@@ -6,18 +6,25 @@ import './index.css';
    
 function Square(props) {
     return (
-      <button  className="square" onClick={props.onClick}>
+      <button className={props.class} onClick={props.onClick}>
         {props.value}
       </button>
     );
   }
   
   class Board extends React.Component {
+    
     renderSquare(i) {
+      let color;
+      if (this.props.winnSquares && (this.props.winnSquares[0] === i || this.props.winnSquares[1] === i || this.props.winnSquares[2] === i)) {
+            color = "square color-blue"  
+      }else {
+            color = "square";
+              }
       return (
         <Square
           value={this.props.squares[i]}
-        //   sty={this.props.bkg}
+          class={color}
           onClick={() => this.props.onClick(i)}
         />
       );
@@ -99,8 +106,8 @@ function Square(props) {
         
         
       });
-      for(let i=0;i<btn.length;i++)
-      btn[i].style.background="white";
+      // for(let i=0;i<btn.length;i++)
+      // btn[i].style.background="white";
     }
   
     render() {
@@ -129,10 +136,10 @@ function Square(props) {
         
          const[a,b,c]= winLine;
       
-        this.state.winnerLine.background="blue";
-        squarebtn[a].style.background = this.state.winnerLine.background;
-        squarebtn[b].style.background = this.state.winnerLine.background;
-        squarebtn[c].style.background = this.state.winnerLine.background;
+        // this.state.winnerLine.background="blue";
+        // squarebtn[a].style.background = this.state.winnerLine.background;
+        // squarebtn[b].style.background = this.state.winnerLine.background;
+        // squarebtn[c].style.background = this.state.winnerLine.background;
         status = "Winner: " + square;
       }else if(this.state.counter===9 && winLine===null){
         status = "Match Draw";
@@ -145,7 +152,7 @@ function Square(props) {
           <div className="game-board">
             <Board
               squares={current.squares}
-            //   bkg={this.state.winnerLine.background}
+              winnSquares={winLine}
               onClick={i => this.handleClick(i)}
                 
             />
