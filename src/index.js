@@ -69,7 +69,7 @@ function Square(props) {
       const current = history[history.length - 1];
       const squares = current.squares.slice();
       
-      if (calculateWinner(squares) || squares[i]) {
+      if (calculateWinner(squares).winLine || squares[i]) {
           const winn = calculateWinner(squares);
           
         return;
@@ -85,7 +85,7 @@ function Square(props) {
         counter : this.state.counter + 1,
         stepNumber: history.length,
         xIsNext: !this.state.xIsNext,
-         winnerLine: this.state.winnerLine,
+        winnerLine: this.state.winnerLine,
 
       });
     }
@@ -109,7 +109,7 @@ function Square(props) {
       const box = document.querySelectorAll(".square");
       const squarebtn = document.getElementsByClassName("square");
      // const squarestyle = "white";
-      const winner = calculateWinner(current.squares);
+      const {winLine,square} = calculateWinner(current.squares);
     //    this.state.winnerLine = winner.winLine;  
 
       const moves = history.map((step, move) => {
@@ -125,16 +125,16 @@ function Square(props) {
       });
   
       let status;
-      if (winner) {
+      if (winLine) {
         
-         const[a,b,c]= winner.winLine;
+         const[a,b,c]= winLine;
       
         this.state.winnerLine.background="blue";
         squarebtn[a].style.background = this.state.winnerLine.background;
         squarebtn[b].style.background = this.state.winnerLine.background;
         squarebtn[c].style.background = this.state.winnerLine.background;
-        status = "Winner: " + winner.square;
-      }else if(this.state.counter===9 && winner===null){
+        status = "Winner: " + square;
+      }else if(this.state.counter===9 && winLine===null){
         status = "Match Draw";
       } else {
         status = "Next player: " + (this.state.xIsNext ? "X" : "O");
@@ -187,6 +187,6 @@ function Square(props) {
         return win;
       }
     }
-    return null;
+    return {winLine:null,square:null};
   }
   
